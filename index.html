@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>_danizinhacroche | Crochê Artesanal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#fdf8f2;
+  --warm:#f5ede0;
+  --blush:#e8c4a8;
+  --terracotta:#c87941;
+  --brown:#6b3e26;
+  --text:#2a1a0e;
+  --muted:#8a6a52;
+}
+body{
+  background:var(--cream);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-weight:300;
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px 20px 60px;
+  background:var(--warm);
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(200,121,65,0.12),transparent 70%);
+  top:-100px;right:-100px;
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(200,121,65,0.08),transparent 70%);
+  bottom:-80px;left:-80px;
+}
+
+.logo-wrap{
+  width:140px;height:140px;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid var(--blush);
+  margin-bottom:24px;
+  animation:fadeUp 0.8s ease both;
+}
+.logo-wrap img{width:100%;height:100%;object-fit:cover;}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,8vw,64px);
+  font-weight:700;
+  color:var(--brown);
+  line-height:1.1;
+  animation:fadeUp 0.9s ease 0.1s both;
+}
+.hero h1 span{
+  font-style:italic;
+  color:var(--terracotta);
+}
+.hero p{
+  margin-top:16px;
+  font-size:16px;
+  color:var(--muted);
+  max-width:380px;
+  line-height:1.7;
+  animation:fadeUp 0.9s ease 0.2s both;
+}
+
+.badge-row{
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+  margin-top:28px;
+  animation:fadeUp 0.9s ease 0.3s both;
+}
+.badge{
+  background:white;
+  border:1px solid var(--blush);
+  border-radius:100px;
+  padding:7px 16px;
+  font-size:13px;
+  color:var(--muted);
+  font-weight:400;
+}
+
+.cta-row{
+  display:flex;gap:12px;flex-wrap:wrap;justify-content:center;
+  margin-top:36px;
+  animation:fadeUp 0.9s ease 0.4s both;
+}
+.btn-main{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--brown);
+  color:white;
+  text-decoration:none;
+  padding:14px 28px;
+  border-radius:100px;
+  font-size:15px;
+  font-weight:500;
+  transition:transform 0.2s,box-shadow 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(107,62,38,0.3);}
+.btn-ig{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;
+  color:var(--brown);
+  text-decoration:none;
+  padding:14px 28px;
+  border-radius:100px;
+  font-size:15px;
+  font-weight:500;
+  border:1.5px solid var(--blush);
+  transition:transform 0.2s,background 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.btn-ig:hover{background:var(--warm);transform:translateY(-2px);}
+
+/* PRODUTOS */
+.section{
+  padding:60px 20px;
+  max-width:900px;
+  margin:0 auto;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  color:var(--brown);
+  text-align:center;
+  margin-bottom:8px;
+}
+.section-sub{
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:36px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.card{
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid rgba(200,121,65,0.12);
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(107,62,38,0.12);}
+.card img{
+  width:100%;height:200px;object-fit:cover;
+  background:var(--warm);
+}
+.card-body{padding:16px;}
+.card-body h3{font-size:16px;font-weight:500;margin-bottom:4px;}
+.card-price{
+  font-family:'Playfair Display',serif;
+  font-size:20px;
+  color:var(--terracotta);
+  font-weight:700;
+}
+.card-stock{font-size:12px;color:var(--muted);margin-bottom:10px;}
+.card-btn{
+  width:100%;padding:10px;border:none;border-radius:12px;
+  background:var(--warm);color:var(--brown);
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;font-weight:500;cursor:pointer;
+  transition:background 0.2s;
+}
+.card-btn:hover{background:var(--blush);}
+.card-btn:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* CARRINHO */
+.cart-wrap{
+  background:white;
+  max-width:500px;
+  margin:0 auto 60px;
+  border-radius:24px;
+  padding:32px;
+  border:1px solid rgba(200,121,65,0.15);
+}
+.cart-title{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  color:var(--brown);
+  margin-bottom:20px;
+}
+.cart-empty{color:var(--muted);font-size:14px;text-align:center;padding:20px 0;}
+.cart-list{list-style:none;margin-bottom:16px;}
+.cart-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid var(--warm);
+  font-size:14px;
+}
+.cart-item:last-child{border-bottom:none;}
+.remove-btn{
+  background:none;border:none;color:#c0392b;cursor:pointer;
+  font-size:13px;font-family:'DM Sans',sans-serif;
+}
+.cart-total{
+  font-family:'Playfair Display',serif;
+  font-size:20px;
+  color:var(--brown);
+  margin:16px 0;
+  text-align:right;
+}
+.btn-whats{
+  width:100%;padding:14px;border:none;border-radius:14px;
+  background:#25D366;color:white;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;
+  cursor:pointer;margin-bottom:10px;
+  transition:opacity 0.2s;
+}
+.btn-whats:hover{opacity:0.88;}
+.btn-pix{
+  width:100%;padding:14px;border:none;border-radius:14px;
+  background:var(--brown);color:white;
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;
+  cursor:pointer;
+  transition:opacity 0.2s;
+}
+.btn-pix:hover{opacity:0.88;}
+.pix-msg{font-size:13px;color:var(--muted);margin-top:10px;text-align:center;}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:32px 20px;
+  background:var(--brown);
+  color:rgba(255,255,255,0.7);
+  font-size:13px;
+}
+footer a{color:var(--blush);text-decoration:none;}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="logo-wrap">
+    <img src="data:image/png;base64,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
+dNwFFFFZ8+y1Pg//2Q==" alt="Dani Crochê">
+  </div>
+  <h1>Dani<span>zinhacrochê</span></h1>
+  <p>Crochê para todos os gostos ✨ Encomendas e pronta entrega 🧶 Entrego em todo o Brasil 🚚</p>
+  <div class="badge-row">
+    <span class="badge">135 seguidores</span>
+    <span class="badge">Feito à mão</span>
+    <span class="badge">Todo o Brasil</span>
+  </div>
+  <div class="cta-row">
+    <a href="https://wa.me/5599999999999" class="btn-main" target="_blank">💬 Fazer Pedido</a>
+    <a href="https://www.instagram.com/_danizinhacroche/" class="btn-ig" target="_blank">📷 Instagram</a>
+  </div>
+</section>
+
+<div class="section">
+  <h2 class="section-title">Produtos em destaque</h2>
+  <p class="section-sub">Adicione ao carrinho e finalize pelo WhatsApp</p>
+  <div class="cards">
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1591206369811-4e5b9a7c6a6c?w=400&q=80" alt="Tapete">
+      <div class="card-body">
+        <h3>Tapete Artesanal</h3>
+        <p class="card-stock" id="stock1">Estoque: 5</p>
+        <p class="card-price">R$ 89,90</p>
+        <button class="card-btn" onclick="addToCart(1,'Tapete Artesanal',89.90)">Adicionar ao carrinho</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1589987607627-616c9a6f9a29?w=400&q=80" alt="Amigurumi">
+      <div class="card-body">
+        <h3>Amigurumi</h3>
+        <p class="card-stock" id="stock2">Estoque: 4</p>
+        <p class="card-price">R$ 59,90</p>
+        <button class="card-btn" onclick="addToCart(2,'Amigurumi',59.90)">Adicionar ao carrinho</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=400&q=80" alt="Bolsa">
+      <div class="card-body">
+        <h3>Bolsa de Crochê</h3>
+        <p class="card-stock" id="stock3">Estoque: 3</p>
+        <p class="card-price">R$ 120,00</p>
+        <button class="card-btn" onclick="addToCart(3,'Bolsa de Crochê',120)">Adicionar ao carrinho</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <div class="cart-wrap">
+    <h2 class="cart-title">🛒 Carrinho</h2>
+    <p class="cart-empty" id="emptyMsg">Nenhum item adicionado ainda.</p>
+    <ul class="cart-list" id="cartItems"></ul>
+    <p class="cart-total" id="totalDisplay" style="display:none">Total: R$ <span id="total">0,00</span></p>
+    <button class="btn-whats" onclick="finalizarCompra()">Finalizar pelo WhatsApp</button>
+    <button class="btn-pix" onclick="copiarPix()">Copiar Chave Pix</button>
+    <p class="pix-msg" id="pixMsg"></p>
+  </div>
+</div>
+
+<footer>
+  © 2026 _danizinhacroche · Feito com 🧶 e muito carinho ·
+  <a href="https://www.instagram.com/_danizinhacroche/" target="_blank">@_danizinhacroche</a>
+</footer>
+
+<script>
+let cart=[], total=0;
+let estoque={1:5,2:4,3:3};
+
+function addToCart(id,nome,preco){
+  if(estoque[id]<=0){alert("Produto esgotado!");return;}
+  cart.push({id,nome,preco});
+  estoque[id]--;
+  total+=preco;
+  render();
+}
+
+function remover(i){
+  let item=cart[i];
+  estoque[item.id]++;
+  total-=item.preco;
+  cart.splice(i,1);
+  render();
+}
+
+function render(){
+  const lista=document.getElementById("cartItems");
+  const empty=document.getElementById("emptyMsg");
+  const totalDisp=document.getElementById("totalDisplay");
+  lista.innerHTML="";
+  if(cart.length===0){empty.style.display="block";totalDisp.style.display="none";}
+  else{empty.style.display="none";totalDisp.style.display="block";}
+  cart.forEach((item,i)=>{
+    const li=document.createElement("li");
+    li.className="cart-item";
+    li.innerHTML=`<span>${item.nome}</span><span>R$ ${item.preco.toFixed(2)} <button class="remove-btn" onclick="remover(${i})">✕</button></span>`;
+    lista.appendChild(li);
+  });
+  document.getElementById("total").textContent=total.toFixed(2).replace('.',',');
+  for(let id in estoque){
+    document.getElementById("stock"+id).textContent="Estoque: "+estoque[id];
+  }
+}
+
+function finalizarCompra(){
+  if(cart.length===0){alert("Carrinho vazio!");return;}
+  let msg="Olá! Quero finalizar o pedido:%0A";
+  cart.forEach(item=>{ msg+="• "+item.nome+" (R$ "+item.preco.toFixed(2)+")%0A"; });
+  msg+="%0ATotal: R$ "+total.toFixed(2);
+  window.open("https://wa.me/5599999999999?text="+msg,"_blank");
+}
+
+function copiarPix(){
+  navigator.clipboard.writeText("SUA_CHAVE_PIX_AQUI");
+  document.getElementById("pixMsg").textContent="Chave Pix copiada! Envie o comprovante no WhatsApp 🧶";
+}
+</script>
+</body>
+</html>
