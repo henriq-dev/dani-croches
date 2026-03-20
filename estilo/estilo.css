@@ -1,0 +1,565 @@
+/* =====================================================
+   DANIZINHA CROCHÊ — estilo/estilo.css
+   Organização:
+   1.  Variáveis globais
+   2.  Reset & body
+   3.  Navbar
+   4.  Hero
+   5.  Seção genérica
+   6.  Grid de cards
+   7.  Galeria de imagens
+   8.  Corpo do card
+   9.  Carrinho
+   10. Sobre
+   11. Footer
+   12. Botão flutuante WhatsApp
+   13. Lightbox
+   14. Animações
+   15. Responsividade mobile
+===================================================== */
+
+/* =====================================================
+   1. VARIÁVEIS GLOBAIS
+   Altere aqui para mudar o tema inteiro do site
+===================================================== */
+:root {
+  --primary:   #6b3e26;  /* marrom escuro principal */
+  --secondary: #c87941;  /* laranja caramelo */
+  --accent:    #e8c4a8;  /* bege claro para bordas/hover */
+  --bg:        #fdf8f2;  /* fundo creme suave */
+  --card-bg:   #ffffff;
+  --text:      #2a1a0e;
+  --muted:     #8a6a52;  /* texto secundário */
+  --white:     #ffffff;
+  --shadow:    0 10px 30px rgba(107, 62, 38, 0.08);
+  --radius:    24px;
+}
+
+/* =====================================================
+   2. RESET & BODY
+===================================================== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  padding-top: 72px; /* espaço para a navbar fixa */
+}
+
+/* =====================================================
+   3. NAVBAR
+   Fixa no topo com efeito glassmorphism leve
+===================================================== */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 32px;
+  background: rgba(253, 248, 242, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(232, 196, 168, 0.3);
+}
+
+.navbar-logo { height: 44px; width: auto; }
+
+.navbar-links { display: flex; gap: 24px; align-items: center; }
+
+.navbar-links a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar-links a:hover { color: var(--primary); }
+
+.navbar-links .nav-cta {
+  background: var(--primary);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 14px;
+}
+
+.navbar-links .nav-cta:hover { background: var(--secondary); color: white; }
+
+/* =====================================================
+   4. HERO
+   Seção inicial com título, badges e botões
+===================================================== */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+  background: linear-gradient(180deg, #f5ede0 0%, var(--bg) 100%);
+}
+
+/* clamp() = responsivo sem media query: mín 42px, ideal 10vw, máx 84px */
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 10vw, 84px);
+  color: var(--primary);
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+  animation: fadeUp 0.8s ease forwards;
+}
+
+.hero h1 span { font-style: italic; color: var(--secondary); }
+
+.hero p {
+  max-width: 500px;
+  font-size: 18px;
+  color: var(--muted);
+  margin-bottom: 40px;
+  animation: fadeUp 0.8s ease 0.15s both;
+}
+
+.badge-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+  animation: fadeUp 0.8s ease 0.25s both;
+}
+
+.badge {
+  background: var(--white);
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 14px;
+  color: var(--primary);
+  border: 1px solid var(--accent);
+  box-shadow: var(--shadow);
+}
+
+.cta-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp 0.8s ease 0.35s both;
+}
+
+/* Botões reutilizáveis em todo o site */
+.btn {
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(107, 62, 38, 0.25); }
+
+.btn-outline { border: 2px solid var(--accent); color: var(--primary); }
+.btn-outline:hover { background: var(--accent); }
+
+/* =====================================================
+   5. SEÇÃO GENÉRICA
+   Wrapper centralizado com padding padrão
+===================================================== */
+.section {
+  padding: 100px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header { text-align: center; margin-bottom: 60px; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+
+.section-sub { color: var(--muted); font-size: 16px; }
+
+/* =====================================================
+   6. GRID DE CARDS
+   auto-fit + minmax = responsivo sem media query
+===================================================== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(200, 121, 65, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover { transform: translateY(-10px); }
+
+/* =====================================================
+   7. GALERIA DE IMAGENS DO CARD
+   Imagens empilhadas — só a .active aparece
+===================================================== */
+.card-gallery {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+}
+
+.gallery-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.5s ease;
+  cursor: zoom-in;
+}
+
+.gallery-img.active { opacity: 1; }
+.card:hover .gallery-img.active { transform: scale(1.05); }
+
+/* Dots de navegação (bolinhas indicadoras de foto atual) */
+.gallery-nav {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.35);
+  padding: 5px 10px;
+  border-radius: 100px;
+  backdrop-filter: blur(4px);
+  z-index: 5;
+}
+
+.gallery-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gallery-dot.active { background: var(--primary); transform: scale(1.25); }
+
+/* =====================================================
+   8. CORPO DO CARD
+   Nome, preço, seletor de quantidade e botão
+===================================================== */
+.card-body {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body h3 {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--primary);
+}
+
+.card-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--secondary);
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* Seletor de quantidade (+/-) */
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  background: var(--bg);
+  padding: 8px 16px;
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--white);
+  color: var(--primary);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.qty-btn:hover { background: var(--accent); }
+.qty-num { font-weight: 500; min-width: 24px; text-align: center; }
+
+.card-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 16px;
+  background: var(--primary);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: auto;
+}
+
+.card-btn:hover { background: var(--secondary); }
+
+/* =====================================================
+   9. CARRINHO
+===================================================== */
+.cart-section { background: var(--white); padding: 80px 24px; }
+
+.cart-wrap {
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 40px;
+  box-shadow: var(--shadow);
+}
+
+.cart-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--primary);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.cart-list { list-style: none; margin-bottom: 30px; }
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--accent);
+}
+
+.cart-item-left { display: flex; flex-direction: column; }
+.cart-item-qty  { font-size: 13px; color: var(--muted); }
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: #e74c3c;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.cart-total {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--primary);
+  text-align: right;
+  margin-bottom: 30px;
+  padding-top: 20px;
+}
+
+.btn-checkout {
+  width: 100%;
+  padding: 18px;
+  border: none;
+  border-radius: 18px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.btn-whats { background: #25D366; color: white; }
+.btn-pix   { background: var(--primary); color: white; }
+.btn-checkout:hover { opacity: 0.9; transform: scale(1.01); }
+
+/* =====================================================
+   10. SOBRE
+===================================================== */
+.sobre { padding: 100px 24px; text-align: center; background: var(--bg); }
+.sobre-inner { max-width: 700px; margin: 0 auto; }
+
+.sobre-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: 0 auto 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  border: 6px solid var(--white);
+  box-shadow: var(--shadow);
+}
+
+.sobre h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.sobre p { color: var(--muted); font-size: 17px; line-height: 1.8; }
+
+/* =====================================================
+   11. FOOTER
+===================================================== */
+footer {
+  text-align: center;
+  padding: 60px 24px;
+  background: var(--primary);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+footer a { color: var(--accent); text-decoration: none; }
+
+/* =====================================================
+   12. BOTÃO FLUTUANTE WHATSAPP
+===================================================== */
+.whatsapp-box {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 999;
+}
+
+.whatsapp-btn {
+  background: #25D366;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 40px;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.whatsapp-btn:hover { background: #1ebe5d; transform: translateY(-3px); }
+
+/* =====================================================
+   13. LIGHTBOX
+   Visualização ampliada com navegação entre fotos
+===================================================== */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.9);
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+
+/* Classe .active adicionada via JS para exibir o lightbox */
+.lightbox-overlay.active { display: flex; }
+
+.lightbox-inner {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.lightbox-inner img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px; right: 0;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s;
+}
+
+.lightbox-arrow:hover { background: rgba(255, 255, 255, 0.4); transform: translateY(-50%) scale(1.1); }
+.lightbox-arrow-left  { left: -60px; }
+.lightbox-arrow-right { right: -60px; }
+
+/* =====================================================
+   14. ANIMAÇÕES
+===================================================== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =====================================================
+   15. RESPONSIVIDADE MOBILE
+===================================================== */
+@media (max-width: 768px) {
+  .hero h1                   { font-size: 48px; }
+  .cards                     { grid-template-columns: 1fr; }
+  .lightbox-arrow-left       { left: -10px; }
+  .lightbox-arrow-right      { right: -10px; }
+  .navbar-links .nav-label   { display: none; } /* esconde links de texto no mobile */
+  .navbar                    { padding: 12px 20px; }
+}

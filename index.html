@@ -5,559 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>_danizinhacroche | Crochê Artesanal</title>
 
-  <!-- Google Fonts: Playfair Display (títulos elegantes) + DM Sans (corpo limpo) -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
-  <style>
-    /* =====================================================
-       VARIÁVEIS GLOBAIS DE COR E ESTILO
-       Altere aqui para mudar o tema inteiro do site
-    ===================================================== */
-    :root {
-      --primary:   #6b3e26;   /* marrom escuro principal */
-      --secondary: #c87941;   /* laranja caramelo */
-      --accent:    #e8c4a8;   /* bege claro para bordas/hover */
-      --bg:        #fdf8f2;   /* fundo creme suave */
-      --card-bg:   #ffffff;
-      --text:      #2a1a0e;
-      --muted:     #8a6a52;   /* texto secundário */
-      --white:     #ffffff;
-      --shadow:    0 10px 30px rgba(107, 62, 38, 0.08);
-      --radius:    24px;
-    }
-
-    /* RESET BÁSICO */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* =====================================================
-       HERO — seção inicial com título e botões de ação
-    ===================================================== */
-    .hero {
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 24px;
-      background: linear-gradient(180deg, #f5ede0 0%, var(--bg) 100%);
-    }
-
-    /* clamp(): tamanho responsivo sem media query — min 42px, ideal 10vw, max 84px */
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(42px, 10vw, 84px);
-      color: var(--primary);
-      margin-bottom: 16px;
-      letter-spacing: -1px;
-      animation: fadeUp 0.8s ease forwards;
-    }
-
-    .hero h1 span { font-style: italic; color: var(--secondary); }
-
-    .hero p {
-      max-width: 500px;
-      font-size: 18px;
-      color: var(--muted);
-      margin-bottom: 40px;
-      animation: fadeUp 0.8s ease 0.15s both;
-    }
-
-    /* Badges informativos (feito à mão, encomendas, entrega) */
-    .badge-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 40px;
-      animation: fadeUp 0.8s ease 0.25s both;
-    }
-
-    .badge {
-      background: var(--white);
-      padding: 8px 20px;
-      border-radius: 100px;
-      font-size: 14px;
-      color: var(--primary);
-      border: 1px solid var(--accent);
-      box-shadow: var(--shadow);
-    }
-
-    /* Botões de ação (WhatsApp + Instagram) */
-    .cta-row {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeUp 0.8s ease 0.35s both;
-    }
-
-    .btn {
-      padding: 16px 32px;
-      border-radius: 100px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 16px;
-    }
-
-    .btn-primary { background: var(--primary); color: var(--white); }
-    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 24px rgba(107, 62, 38, 0.25); }
-
-    .btn-outline { border: 2px solid var(--accent); color: var(--primary); }
-    .btn-outline:hover { background: var(--accent); }
-
-    /* =====================================================
-       SEÇÃO GENÉRICA (wrapper de conteúdo centralizado)
-    ===================================================== */
-    .section {
-      padding: 100px 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-header { text-align: center; margin-bottom: 60px; }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 36px;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-
-    .section-sub { color: var(--muted); font-size: 16px; }
-
-    /* =====================================================
-       GRID DE CARDS DE PRODUTO
-       auto-fit + minmax = responsivo sem media query
-    ===================================================== */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 32px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border: 1px solid rgba(200, 121, 65, 0.05);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card:hover { transform: translateY(-10px); }
-
-    /* =====================================================
-       GALERIA DE IMAGENS DO CARD
-       Suporta múltiplas fotos com dots de navegação
-    ===================================================== */
-    .card-gallery {
-      position: relative;
-      height: 320px;
-      overflow: hidden;
-    }
-
-    /* Cada imagem da galeria */
-    .gallery-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 0.4s ease, transform 0.5s ease;
-      cursor: zoom-in;
-    }
-
-    /* Imagem ativa fica visível */
-    .gallery-img.active { opacity: 1; }
-    .card:hover .gallery-img.active { transform: scale(1.05); }
-
-    /* Dots de navegação (bolinha indicadora de foto atual) */
-    .gallery-nav {
-      position: absolute;
-      bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      background: rgba(255,255,255,0.35);
-      padding: 5px 10px;
-      border-radius: 100px;
-      backdrop-filter: blur(4px);
-      z-index: 5;
-    }
-
-    .gallery-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(255,255,255,0.8);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .gallery-dot.active { background: var(--primary); transform: scale(1.25); }
-
-    /* =====================================================
-       CORPO DO CARD (nome, preço, quantidade, botão)
-    ===================================================== */
-    .card-body {
-      padding: 24px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card-body h3 {
-      font-size: 18px;
-      font-weight: 500;
-      margin-bottom: 8px;
-      color: var(--primary);
-    }
-
-    .card-price {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: var(--secondary);
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
-
-    /* Seletor de quantidade (+/-) */
-    .qty-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 20px;
-      background: var(--bg);
-      padding: 8px 16px;
-      border-radius: 100px;
-      width: fit-content;
-    }
-
-    .qty-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: none;
-      background: var(--white);
-      color: var(--primary);
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .qty-btn:hover { background: var(--accent); }
-    .qty-num { font-weight: 500; min-width: 24px; text-align: center; }
-
-    /* Botão "Adicionar ao Carrinho" */
-    .card-btn {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 16px;
-      background: var(--primary);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: auto;
-    }
-
-    .card-btn:hover { background: var(--secondary); }
-
-    /* =====================================================
-       SEÇÃO DO CARRINHO
-    ===================================================== */
-    .cart-section { background: var(--white); padding: 80px 24px; }
-
-    .cart-wrap {
-      max-width: 600px;
-      margin: 0 auto;
-      background: var(--bg);
-      border-radius: var(--radius);
-      padding: 40px;
-      box-shadow: var(--shadow);
-    }
-
-    .cart-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      color: var(--primary);
-      margin-bottom: 30px;
-      text-align: center;
-    }
-
-    .cart-list { list-style: none; margin-bottom: 30px; }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0;
-      border-bottom: 1px solid var(--accent);
-    }
-
-    .cart-item-left { display: flex; flex-direction: column; }
-    .cart-item-qty { font-size: 13px; color: var(--muted); }
-
-    .remove-btn {
-      background: none;
-      border: none;
-      color: #e74c3c;
-      cursor: pointer;
-      font-size: 13px;
-      margin-top: 4px;
-    }
-
-    .cart-total {
-      font-family: 'Playfair Display', serif;
-      font-size: 24px;
-      color: var(--primary);
-      text-align: right;
-      margin-bottom: 30px;
-      padding-top: 20px;
-    }
-
-    /* Botões de finalização (WhatsApp / PIX) */
-    .btn-checkout {
-      width: 100%;
-      padding: 18px;
-      border: none;
-      border-radius: 18px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 12px;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    .btn-whats { background: #25D366; color: white; }
-    .btn-pix   { background: var(--primary); color: white; }
-    .btn-checkout:hover { opacity: 0.9; transform: scale(1.01); }
-
-    /* =====================================================
-       SEÇÃO SOBRE
-    ===================================================== */
-    .sobre { padding: 100px 24px; text-align: center; background: var(--bg); }
-    .sobre-inner { max-width: 700px; margin: 0 auto; }
-
-    .sobre-avatar {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: var(--accent);
-      margin: 0 auto 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 60px;
-      border: 6px solid var(--white);
-      box-shadow: var(--shadow);
-    }
-
-    .sobre h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 32px;
-      color: var(--primary);
-      margin-bottom: 20px;
-    }
-
-    .sobre p { color: var(--muted); font-size: 17px; line-height: 1.8; }
-
-    /* =====================================================
-       LIGHTBOX — visualização ampliada das fotos
-       Abre ao clicar na imagem do card
-    ===================================================== */
-    .lightbox-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: rgba(0, 0, 0, 0.9);
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
-    }
-
-    /* Classe .active ativada via JS para exibir o lightbox */
-    .lightbox-overlay.active { display: flex; }
-
-    .lightbox-inner {
-      position: relative;
-      max-width: 90vw;
-      max-height: 90vh;
-    }
-
-    .lightbox-inner img {
-      max-width: 100%;
-      max-height: 85vh;
-      border-radius: 12px;
-      object-fit: contain;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 30px;
-      cursor: pointer;
-    }
-
-    .lightbox-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(4px);
-      transition: all 0.3s;
-    }
-
-    .lightbox-arrow:hover { background: rgba(255,255,255,0.4); transform: translateY(-50%) scale(1.1); }
-    .lightbox-arrow-left  { left: -60px; }
-    .lightbox-arrow-right { right: -60px; }
-
-    /* =====================================================
-       FOOTER
-    ===================================================== */
-    footer {
-      text-align: center;
-      padding: 60px 24px;
-      background: var(--primary);
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 14px;
-    }
-
-    footer a { color: var(--accent); text-decoration: none; }
-
-    /* =====================================================
-       BOTÃO FLUTUANTE DO WHATSAPP
-    ===================================================== */
-    .whatsapp-box {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      z-index: 999;
-    }
-
-    .whatsapp-btn {
-      background: #25D366;
-      color: white;
-      padding: 14px 22px;
-      border-radius: 40px;
-      font-weight: bold;
-      text-decoration: none;
-      font-family: 'DM Sans', sans-serif;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-      transition: 0.3s;
-    }
-
-    .whatsapp-btn:hover { background: #1ebe5d; transform: translateY(-3px); }
-
-    /* =====================================================
-       NAVBAR com logo
-    ===================================================== */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 32px;
-      background: rgba(253, 248, 242, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(232, 196, 168, 0.3);
-    }
-
-    .navbar-logo { height: 44px; width: auto; }
-
-    .navbar-links { display: flex; gap: 24px; align-items: center; }
-
-    .navbar-links a {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .navbar-links a:hover { color: var(--primary); }
-
-    .navbar-links .nav-cta {
-      background: var(--primary);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 100px;
-      font-size: 14px;
-    }
-
-    .navbar-links .nav-cta:hover { background: var(--secondary); color: white; }
-
-    /* Empurra o hero para não ficar atrás da navbar */
-    body { padding-top: 72px; }
-
-    /* =====================================================
-       ANIMAÇÃO DE ENTRADA (hero)
-    ===================================================== */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* =====================================================
-       RESPONSIVIDADE MOBILE
-    ===================================================== */
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 48px; }
-      .cards   { grid-template-columns: 1fr; }
-      .lightbox-arrow-left  { left: -10px; }
-      .lightbox-arrow-right { right: -10px; }
-      .navbar-links .nav-label { display: none; }
-      .navbar { padding: 12px 20px; }
-    }
-  </style>
+  <!-- Estilos externos — pasta estilo/ -->
+  <link rel="stylesheet" href="estilo/estilo.css" />
 </head>
 <body>
 
@@ -566,7 +18,7 @@
     <img src="imagens/logo/logopq.png" alt="Danizinha Crochê" class="navbar-logo" />
     <div class="navbar-links">
       <a href="#produtos" class="nav-label">Peças</a>
-      <a href="#sobre" class="nav-label">Sobre</a>
+      <a href="#sobre"    class="nav-label">Sobre</a>
       <a href="https://www.instagram.com/_danizinhacroche/" target="_blank" class="nav-label">Instagram</a>
       <a href="https://wa.me/556999877726" target="_blank" class="nav-cta">💬 Fazer Pedido</a>
     </div>
@@ -598,7 +50,8 @@
 
     <div class="cards">
 
-      <!-- CARD 1 — Touca Bebê Tubarão (2 fotos = galeria com dots) -->
+      <!-- ─── CARD: Touca Bebê Tubarão (2 fotos) ─── -->
+      <!-- Para adicionar fotos: duplique <img class="gallery-img"> e <button class="gallery-dot"> -->
       <div class="card">
         <div class="card-gallery" data-gallery>
           <img class="gallery-img active"
@@ -626,12 +79,12 @@
         </div>
       </div>
 
-      <!-- CARD 2 — Touca Finn -->
+      <!-- ─── CARD: Touca Finn (1 foto) ─── -->
       <div class="card">
         <div class="card-gallery" data-gallery>
           <img class="gallery-img active"
                src="imagens/produtos/toucafinn.jpeg"
-               alt="Touca Finn do Adventure Time em crochê branca com orelhas" />
+               alt="Touca Finn do Adventure Time em crochê branca" />
         </div>
         <div class="card-body">
           <h3>Touca Finn (Adventure Time)</h3>
@@ -647,12 +100,13 @@
         </div>
       </div>
 
-      <!-- CARD 3 — Chaveiro de Cogumelo -->
+      <!-- ─── CARD: Chaveiro de Cogumelo (1 foto) ─── -->
+      <!-- ⚠️ Confirme o nome exato do arquivo no GitHub e corrija o src abaixo -->
       <div class="card">
         <div class="card-gallery" data-gallery>
           <img class="gallery-img active"
-               src="imagens/produtos/Chaveiro de .jpg"
-               alt="Chaveiro de cogumelo em crochê vermelho e branco com carinha fofa" />
+               src="imagens/produtos/Chaveiro de cogumelo.jpg"
+               alt="Chaveiro de cogumelo em crochê vermelho e branco" />
         </div>
         <div class="card-body">
           <h3>Chaveiro de Cogumelo</h3>
@@ -668,7 +122,7 @@
         </div>
       </div>
 
-      <!-- CARD 4 — Cogumelo Marca-Páginas -->
+      <!-- ─── CARD: Cogumelo Marca-Páginas (1 foto) ─── -->
       <div class="card">
         <div class="card-gallery" data-gallery>
           <img class="gallery-img active"
@@ -689,10 +143,9 @@
         </div>
       </div>
 
-      <!-- CARD 5 — Chapéu Seletor Harry Potter (3 fotos = galeria com dots) -->
+      <!-- ─── CARD: Chapéu Seletor Harry Potter (3 fotos) ─── -->
       <div class="card">
         <div class="card-gallery" data-gallery>
-          <!-- 3 imagens do chapéu — a primeira começa ativa -->
           <img class="gallery-img active"
                src="imagens/produtos/chapeuharry (1).jpeg"
                alt="Chapéu Seletor Harry Potter em crochê marrom - foto 1" />
@@ -702,7 +155,6 @@
           <img class="gallery-img"
                src="imagens/produtos/chapeuharry (3).jpeg"
                alt="Chapéu Seletor Harry Potter em crochê marrom - foto 3" />
-          <!-- Dots de navegação entre as 3 fotos -->
           <div class="gallery-nav">
             <button class="gallery-dot active" data-idx="0"></button>
             <button class="gallery-dot"        data-idx="1"></button>
@@ -724,14 +176,14 @@
       </div>
 
     </div><!-- /cards -->
-  </div><!-- /section -->
+  </div><!-- /section#produtos -->
 
   <!-- ===== CARRINHO ===== -->
   <section class="cart-section" id="carrinho">
     <div class="cart-wrap">
       <h2 class="cart-title">🛒 Seu Carrinho</h2>
 
-      <!-- Lista de itens adicionados (populada via JS) -->
+      <!-- Lista populada dinamicamente pelo javascript.js -->
       <ul class="cart-list" id="cart-list">
         <li style="color: var(--muted); text-align:center; padding: 20px 0;">
           Seu carrinho está vazio 🧶
@@ -740,12 +192,9 @@
 
       <div class="cart-total" id="cart-total">Total: R$ 0,00</div>
 
-      <!-- Finalizar pelo WhatsApp — o JS monta a mensagem automaticamente -->
       <button class="btn-checkout btn-whats" onclick="checkoutWhatsApp()">
         💬 Finalizar pelo WhatsApp
       </button>
-
-      <!-- Finalizar via PIX -->
       <button class="btn-checkout btn-pix" onclick="checkoutPix()">
         💠 Pagar via PIX
       </button>
@@ -758,12 +207,12 @@
       <div class="sobre-avatar">🧶</div>
       <h2>Feito com amor</h2>
       <p>
-        Olá! Sou a Dani — artista e apaixonada por crochê. Transformo fios em arte, 
-        criando peças únicas feitas à mão com materiais de alta qualidade e muito carinho. 
-        Especializada em amigurumis, acessórios e itens temáticos. 
+        Olá! Sou a Dani — artista e apaixonada por crochê. Transformo fios em arte,
+        criando peças únicas feitas à mão com materiais de alta qualidade e muito carinho.
+        Especializada em amigurumis, acessórios e itens temáticos.
         Encomendas abertas com entrega em todo o Brasil! 💛
       </p>
-      <div style="margin-top: 28px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+      <div style="margin-top:28px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
         <a href="https://www.instagram.com/_danizinhacroche/" target="_blank" class="btn btn-outline">
           📷 @_danizinhacroche
         </a>
@@ -776,7 +225,8 @@
 
   <!-- ===== FOOTER ===== -->
   <footer>
-    <img src="imagens/logotipo/logopq.png" alt="Danizinha Crochê" style="height:36px; margin-bottom:16px; opacity:0.8;" />
+    <img src="imagens/logo/logopq.png" alt="Danizinha Crochê"
+         style="height:36px; margin-bottom:16px; opacity:0.8;" />
     <p>© 2026 _danizinhacroche · Feito com 🧶 e muito amor</p>
     <p style="margin-top:8px;">
       <a href="https://www.instagram.com/_danizinhacroche/" target="_blank">Instagram</a>
@@ -792,219 +242,18 @@
     </a>
   </div>
 
-  <!-- ===== LIGHTBOX (visualização ampliada) ===== -->
+  <!-- ===== LIGHTBOX ===== -->
   <div class="lightbox-overlay" id="lightbox">
     <div class="lightbox-inner">
-      <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+      <button class="lightbox-close"                    onclick="closeLightbox()">✕</button>
       <button class="lightbox-arrow lightbox-arrow-left"  onclick="lightboxNav(-1)">‹</button>
       <img id="lightbox-img" src="" alt="Imagem ampliada" />
       <button class="lightbox-arrow lightbox-arrow-right" onclick="lightboxNav(1)">›</button>
     </div>
   </div>
 
-  <!-- ===================================================
-       JAVASCRIPT — carrinho, galeria e lightbox
-       Lógica modular e comentada em português
-  =================================================== -->
-  <script>
-    // -------------------------------------------------------
-    // CARRINHO DE COMPRAS
-    // Estrutura: array de objetos { nome, preco, qty }
-    // -------------------------------------------------------
-    let cart = [];
-
-    /**
-     * Altera a quantidade do seletor +/- no card.
-     * @param {HTMLElement} btn  - botão clicado (+ ou -)
-     * @param {number}      dir  - +1 para aumentar, -1 para diminuir
-     */
-    function changeQty(btn, dir) {
-      const qtyEl = btn.parentElement.querySelector('.qty-num');
-      let qty = parseInt(qtyEl.textContent) + dir;
-      if (qty < 1) qty = 1; // mínimo 1 unidade
-      qtyEl.textContent = qty;
-    }
-
-    /**
-     * Adiciona produto ao carrinho ou incrementa a quantidade se já existir.
-     * @param {HTMLElement} btn   - botão "Adicionar ao carrinho"
-     * @param {string}      nome  - nome do produto
-     * @param {number}      preco - preço unitário em reais
-     */
-    function addToCart(btn, nome, preco) {
-      // Pega a quantidade selecionada no card
-      const qty = parseInt(btn.closest('.card-body').querySelector('.qty-num').textContent);
-
-      // Verifica se o produto já está no carrinho
-      const existing = cart.find(i => i.nome === nome);
-      if (existing) {
-        existing.qty += qty;
-      } else {
-        cart.push({ nome, preco, qty });
-      }
-
-      renderCart();
-
-      // Feedback visual no botão
-      btn.textContent = '✅ Adicionado!';
-      setTimeout(() => { btn.textContent = '🛒 Adicionar ao carrinho'; }, 1500);
-
-      // Rola suavemente até o carrinho
-      document.getElementById('carrinho').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    /**
-     * Remove um item do carrinho pelo nome.
-     * @param {string} nome - nome do produto a remover
-     */
-    function removeFromCart(nome) {
-      cart = cart.filter(i => i.nome !== nome);
-      renderCart();
-    }
-
-    /**
-     * Renderiza a lista do carrinho no HTML e atualiza o total.
-     */
-    function renderCart() {
-      const list  = document.getElementById('cart-list');
-      const total = document.getElementById('cart-total');
-
-      if (cart.length === 0) {
-        list.innerHTML = '<li style="color:var(--muted);text-align:center;padding:20px 0">Seu carrinho está vazio 🧶</li>';
-        total.textContent = 'Total: R$ 0,00';
-        return;
-      }
-
-      // Monta cada item da lista
-      list.innerHTML = cart.map(item => `
-        <li class="cart-item">
-          <div class="cart-item-left">
-            <span>${item.nome}</span>
-            <span class="cart-item-qty">${item.qty}x · R$ ${(item.preco * item.qty).toFixed(2).replace('.', ',')}</span>
-            <button class="remove-btn" onclick="removeFromCart('${item.nome}')">✕ Remover</button>
-          </div>
-          <span>R$ ${(item.preco * item.qty).toFixed(2).replace('.', ',')}</span>
-        </li>
-      `).join('');
-
-      // Calcula e exibe o total
-      const soma = cart.reduce((acc, i) => acc + i.preco * i.qty, 0);
-      total.textContent = `Total: R$ ${soma.toFixed(2).replace('.', ',')}`;
-    }
-
-    /**
-     * Monta mensagem de pedido e abre o WhatsApp.
-     * A mensagem lista os produtos, quantidades e total.
-     */
-    function checkoutWhatsApp() {
-      if (cart.length === 0) { alert('Adicione produtos ao carrinho primeiro!'); return; }
-
-      const itens = cart.map(i => `• ${i.qty}x ${i.nome} - R$ ${(i.preco * i.qty).toFixed(2).replace('.', ',')}`).join('\n');
-      const total = cart.reduce((acc, i) => acc + i.preco * i.qty, 0);
-      const msg   = `Olá Dani! 🧶 Quero fazer um pedido:\n\n${itens}\n\nTotal: R$ ${total.toFixed(2).replace('.', ',')}\n\nPode me confirmar disponibilidade?`;
-
-      // encodeURIComponent garante que caracteres especiais sejam enviados corretamente
-      window.open(`https://wa.me/556999877726?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    /**
-     * Exibe as informações de pagamento via PIX.
-     */
-    function checkoutPix() {
-      if (cart.length === 0) { alert('Adicione produtos ao carrinho primeiro!'); return; }
-      const total = cart.reduce((acc, i) => acc + i.preco * i.qty, 0);
-      alert(`💠 Pagamento via PIX\n\nValor: R$ ${total.toFixed(2).replace('.', ',')}\n\nChave PIX: (sua chave aqui)\n\nApós o pagamento, envie o comprovante pelo WhatsApp! 💛`);
-    }
-
-    // -------------------------------------------------------
-    // GALERIA DE IMAGENS DOS CARDS
-    // Dots de navegação entre múltiplas fotos de um produto
-    // -------------------------------------------------------
-
-    // Seleciona todas as galerias da página
-    document.querySelectorAll('[data-gallery]').forEach(gallery => {
-      const imgs = gallery.querySelectorAll('.gallery-img');
-      const dots = gallery.querySelectorAll('.gallery-dot');
-
-      // Só ativa se houver mais de 1 imagem E dots definidos no HTML
-      if (imgs.length <= 1 || dots.length === 0) return;
-
-      /**
-       * Troca a imagem ativa da galeria.
-       * @param {number} idx - índice da imagem desejada
-       */
-      function goTo(idx) {
-        imgs.forEach(i => i.classList.remove('active'));
-        dots.forEach(d => d.classList.remove('active'));
-        imgs[idx].classList.add('active');
-        dots[idx].classList.add('active');
-      }
-
-      // Cada dot navega para o índice correspondente
-      dots.forEach(dot => {
-        dot.addEventListener('click', () => goTo(parseInt(dot.dataset.idx)));
-      });
-
-      // Clique na imagem abre o lightbox com todas as fotos do produto
-      imgs.forEach((img, idx) => {
-        img.addEventListener('click', () => openLightbox(
-          Array.from(imgs).map(i => i.src), // array de todas as srcs
-          idx
-        ));
-      });
-    });
-
-    // Clique em imagens de cards sem galeria múltipla também abre lightbox
-    document.querySelectorAll('.gallery-img').forEach(img => {
-      if (!img.closest('[data-gallery]').querySelectorAll('.gallery-dot').length) {
-        img.addEventListener('click', () => openLightbox([img.src], 0));
-      }
-    });
-
-    // -------------------------------------------------------
-    // LIGHTBOX — visualização ampliada com navegação
-    // -------------------------------------------------------
-    let lbImages = []; // array de URLs das imagens da galeria atual
-    let lbIndex  = 0;  // índice da imagem exibida no momento
-
-    /**
-     * Abre o lightbox com um conjunto de imagens.
-     * @param {string[]} images - array de URLs
-     * @param {number}   idx    - índice inicial
-     */
-    function openLightbox(images, idx) {
-      lbImages = images;
-      lbIndex  = idx;
-      document.getElementById('lightbox-img').src = lbImages[lbIndex];
-      document.getElementById('lightbox').classList.add('active');
-    }
-
-    /** Fecha o lightbox */
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
-    }
-
-    /**
-     * Navega entre as imagens do lightbox.
-     * @param {number} dir - +1 próxima, -1 anterior
-     */
-    function lightboxNav(dir) {
-      lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
-      document.getElementById('lightbox-img').src = lbImages[lbIndex];
-    }
-
-    // Fecha o lightbox ao clicar fora da imagem (no overlay escuro)
-    document.getElementById('lightbox').addEventListener('click', function(e) {
-      if (e.target === this) closeLightbox();
-    });
-
-    // Fecha o lightbox com a tecla Escape
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowLeft')  lightboxNav(-1);
-      if (e.key === 'ArrowRight') lightboxNav(1);
-    });
-  </script>
+  <!-- Script externo — sempre no fim do body para o HTML já estar carregado -->
+  <script src="javascript/javascript.js"></script>
 
 </body>
 </html>
